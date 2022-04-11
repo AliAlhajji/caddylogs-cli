@@ -29,6 +29,16 @@ caddylogs-cli access.log
 
 ## Available filters:
 
+- `--first <n>` or `-f <n>`: get the last `n` records of the filtered logs.
+```
+caddylogs-cli --first 10 access.log
+```
+
+- `--last <n>` or `-l <n>`: get the last `n` records of the filtered logs.
+```
+caddylogs-cli --last 10 access.log
+```
+
 - `--info` or `-i`: get only the logs of level `info`
 ```
 caddylogs-cli --info access.log
@@ -49,7 +59,7 @@ caddylogs-cli -url-contains ".jpg" access.log
 caddylogs-cli --referer-contains "twitter.com" access.log
 ```
 
-- `--logger-is <value>` or `-l <value>`: get the logs where the used logger is exactly `value`:
+- `--logger-is <value>` or `-g <value>`: get the logs where the used logger is exactly `value`:
 ```
 caddylogs-cli --logger-is "http.log.access.log0" access.log
 ```
@@ -70,11 +80,16 @@ This option can be used multiple times
 caddylogs-cli --count access.log
 ```
 
-These options can be used together to filter the logs more flexible (except for `--info` and `--error`, they cannot be used together):
+- `--reverse`: print the results in reverse (most recent first):
 ```
-caddylogs-cli --info --url-contains "about.html" --referer-contains "home.html" access.log
+caddylogs-cli --reverse access.log
 ```
-This will return the logs that:
+
+You can use a combination of these options to filter the logs more flexible (except for `--info` and `--error`, they cannot be used together):
+```
+caddylogs-cli --info --url-contains "about.html" --referer-contains "home.html" --first 10 access.log
+```
+This will return the first 10 logs that:
 - are info logs
 - have "about.html" in the request url
 - have "home.html" in the request's referer.

@@ -9,4 +9,7 @@ const (
 	Header          string = "header"
 	InfoLogs        string = "info"
 	ErrorLogs       string = "error"
+	First           string = "first"
+	Last            string = "last"
+	Reverse         string = "reverse"
 )

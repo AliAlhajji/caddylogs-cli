@@ -12,8 +12,8 @@ func main() {
 	//Flags variables
 	var urlContains, refererContains, loggerIs string
 	var requestHeaders cli.StringSlice
-	var statusCode int
-	var count, infoLogs, errorLogs bool
+	var statusCode, first, last int
+	var count, infoLogs, errorLogs, reverse bool
 
 	app := &cli.App{
 		Name:            "caddylogs",
@@ -41,7 +41,7 @@ func main() {
 
 		&cli.StringFlag{
 			Name:        LoggerIs,
-			Aliases:     []string{"l"},
+			Aliases:     []string{"g"},
 			Usage:       "Search for logs in a specific logger (must be exact logger name)",
 			Destination: &loggerIs,
 		},
@@ -87,6 +87,26 @@ func main() {
 			Aliases:     []string{"s"},
 			Usage:       "Filter logs based on the status code of the response.",
 			Destination: &statusCode,
+		},
+
+		&cli.IntFlag{
+			Name:        First,
+			Aliases:     []string{"f"},
+			Usage:       "Get first n records of the current filtered logs.",
+			Destination: &first,
+		},
+
+		&cli.IntFlag{
+			Name:        Last,
+			Aliases:     []string{"l"},
+			Usage:       "Get last n records of the current filtered logs.",
+			Destination: &last,
+		},
+
+		&cli.BoolFlag{
+			Name:        Reverse,
+			Usage:       "Reverse the results (recent first).",
+			Destination: &reverse,
 		},
 	}
 
@@ -145,10 +165,22 @@ func main() {
 			}
 		}
 
+		if first != 0 {
+			lm.First(first)
+		}
+
+		if last != 0 {
+			lm.Last(last)
+		}
+
 		//If --count flag is specified, print the number of logs and exit
 		if count {
 			fmt.Println(lm.GetLogsCount())
 			return nil
+		}
+
+		if reverse {
+			lm.Reverse()
 		}
 
 		//Print the logs in the terminal
