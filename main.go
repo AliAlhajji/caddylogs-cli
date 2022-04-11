@@ -8,6 +8,8 @@ import (
 	"github.com/urfave/cli/v2"
 )
 
+var version = "0.2"
+
 func main() {
 	//Flags variables
 	var urlContains, refererContains, loggerIs string
@@ -18,7 +20,7 @@ func main() {
 	app := &cli.App{
 		Name:            "caddylogs",
 		Usage:           "Caddy Logs Filter",
-		Version:         "0.1",
+		Version:         version,
 		HideHelpCommand: true,
 		ArgsUsage:       "<log file path>",
 		Authors: []*cli.Author{
